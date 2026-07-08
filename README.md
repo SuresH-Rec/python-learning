@@ -18,9 +18,11 @@ I'm a Talent Acquisition Specialist who is learning Python from scratch and docu
 - Loops
 - Functions
 
-## 💻 Mini Projects
+## 📋 Mini Projects
 
- 01 | Student Management System | functions, loops, input(), counters | ✅ Done |
+| # | Project | Key Concepts | Status |
+|---|---------|--------------|--------|
+| 01 | Student Management System | functions, loops, input(), counters | ✅ Done |
 | 02 | Shopping Cart | lists, dictionaries, functions | ✅ Done |
 | 03 | Tech Recruiter Quiz | f-strings, enumerate, validation | ✅ Done |
 | 04 | Employee Rating System | if/elif, input(), while loop | 🔜 Coming |
