@@ -26,7 +26,7 @@ I'm a Talent Acquisition Specialist who is learning Python from scratch and docu
 | 02 | Shopping Cart | lists, dictionaries, functions | ✅ Done |
 | 03 | Tech Recruiter Quiz | f-strings, enumerate, validation | ✅ Done |
 | 04 | Employee Rating System | if/elif, input(), while loop | ✅ Done |
-| 05 | Cricket Scorecard | lists, loops, counters | 🔜 Coming |
+| 05 | Cricket Scorecard | lists, loops, counters | ✅ Done |
 | 06 | Library Management | dictionaries, functions, input() | 🔜 Coming |
 | 07 | Recruitment Screening System | pandas, DataFrames, automation | 🔜 Coming |
 
