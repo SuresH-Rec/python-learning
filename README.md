@@ -25,7 +25,7 @@ Rather than building everything at once, I'm developing it incrementally—just 
 
 ---
 
-### 🚧 Version 2
+### ✅ Version 2
 - Search Candidates by Skill
 - Filter Immediate Joiners
 - Search using Partial Skills
