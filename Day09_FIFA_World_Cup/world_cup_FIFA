@@ -1,0 +1,147 @@
+WORLD_CUPS = {
+    1930: {"host": "Uruguay",        "winner": "Uruguay",       "runner_up": "Argentina"},
+    1934: {"host": "Italy",          "winner": "Italy",         "runner_up": "Czechoslovakia"},
+    1938: {"host": "France",         "winner": "Italy",         "runner_up": "Hungary"},
+    1950: {"host": "Brazil",         "winner": "Uruguay",       "runner_up": "Brazil"},
+    1954: {"host": "Switzerland",    "winner": "West Germany",  "runner_up": "Hungary"},
+    1958: {"host": "Sweden",         "winner": "Brazil",        "runner_up": "Sweden"},
+    1962: {"host": "Chile",          "winner": "Brazil",        "runner_up": "Czechoslovakia"},
+    1966: {"host": "England",        "winner": "England",       "runner_up": "West Germany"},
+    1970: {"host": "Mexico",         "winner": "Brazil",        "runner_up": "Italy"},
+    1974: {"host": "West Germany",   "winner": "West Germany",  "runner_up": "Netherlands"},
+    1978: {"host": "Argentina",      "winner": "Argentina",     "runner_up": "Netherlands"},
+    1982: {"host": "Spain",          "winner": "Italy",         "runner_up": "West Germany"},
+    1986: {"host": "Mexico",         "winner": "Argentina",     "runner_up": "West Germany"},
+    1990: {"host": "Italy",          "winner": "West Germany",  "runner_up": "Argentina"},
+    1994: {"host": "USA",            "winner": "Brazil",        "runner_up": "Italy"},
+    1998: {"host": "France",         "winner": "France",        "runner_up": "Brazil"},
+    2002: {"host": "South Korea/Japan", "winner": "Brazil",     "runner_up": "Germany"},
+    2006: {"host": "Germany",        "winner": "Italy",         "runner_up": "France"},
+    2010: {"host": "South Africa",   "winner": "Spain",         "runner_up": "Netherlands"},
+    2014: {"host": "Brazil",         "winner": "Germany",       "runner_up": "Argentina"},
+    2018: {"host": "Russia",         "winner": "France",        "runner_up": "Croatia"},
+    2022: {"host": "Qatar",          "winner": "Argentina",     "runner_up": "France",
+           "top_scorer": "Kylian Mbappe (8 goals)"},
+    2026: {"host": "USA/Canada/Mexico", "winner": "Spain",      "runner_up": "Argentina",
+           "top_scorer": "Kylian Mbappe (10 goals)"},
+}
+
+TITLE_COUNTS = {
+    "Brazil": 5, "Germany": 4, "West Germany": 4, "Italy": 4,
+    "Argentina": 3, "Spain": 2, "France": 2, "Uruguay": 2, "England": 1,
+}
+
+
+def most_titles():
+    combined = {}
+    for country in ("Brazil", "Germany", "Argentina", "Spain", "France", "Uruguay", "England", "Italy"):
+        combined[country] = sum(
+            1 for d in WORLD_CUPS.values()
+            if d["winner"] in (country, "West Germany" if country == "Germany" else country)
+        )
+    combined["Germany"] += sum(1 for d in WORLD_CUPS.values() if d["winner"] == "West Germany")
+    return max(combined.items(), key=lambda kv: kv[1])
+
+
+def lookup_year():
+    try:
+        year = int(input("Which year's World Cup do you want to know about? "))
+    except ValueError:
+        print("Please enter a valid year, e.g. 2018.\n")
+        return
+    data = WORLD_CUPS.get(year)
+    if not data:
+        print(f"No World Cup data found for {year} (tournament not held or out of range).\n")
+        return
+    print(f"\n🏆 {year} FIFA World Cup")
+    print(f"   Host:      {data['host']}")
+    print(f"   Winner:    {data['winner']}")
+    print(f"   Runner-up: {data['runner_up']}")
+    if "top_scorer" in data:
+        print(f"   Top scorer: {data['top_scorer']}")
+    print()
+
+
+def list_winners():
+    print("\nAll FIFA World Cup winners:")
+    for year, data in sorted(WORLD_CUPS.items()):
+        print(f"  {year}: {data['winner']}")
+    print()
+
+
+def random_quiz(rounds=5):
+    years = list(WORLD_CUPS.keys())
+    score = 0
+    print(f"\nQuiz time! {rounds} questions about World Cup winners.\n")
+    for i in range(rounds):
+        year = random.choice(years)
+        correct = WORLD_CUPS[year]["winner"]
+        options = {correct}
+        while len(options) < 4:
+            options.add(WORLD_CUPS[random.choice(years)]["winner"])
+        options = list(options)
+        random.shuffle(options)
+
+        print(f"Q{i + 1}. Who won the {year} FIFA World Cup?")
+        for idx, opt in enumerate(options, 1):
+            print(f"   {idx}. {opt}")
+
+        try:
+            choice = int(input("Your answer (1-4): "))
+        except ValueError:
+            choice = -1
+
+        if 1 <= choice <= 4 and options[choice - 1] == correct:
+            print("✅ Correct!\n")
+            score += 1
+        else:
+            print(f"❌ Wrong. The correct answer was {correct}.\n")
+
+    print(f"Final score: {score}/{rounds}")
+    if score == rounds:
+        print("Perfect score! 🌟\n")
+    elif score >= rounds // 2:
+        print("Nice job! ⚽\n")
+    else:
+        print("Keep practicing! 📚\n")
+
+
+def show_menu():
+    print("=" * 45)
+    print("        FIFA WORLD CUP TRIVIA")
+    print("=" * 45)
+    print("1. Look up a specific World Cup year")
+    print("2. List all winners (1930-2026)")
+    print("3. Who has won the most titles?")
+    print("4. Take a random quiz")
+    print("5. Exit")
+
+
+def main():
+    print("Welcome to the FIFA World Cup Quiz!")
+    while True:
+        show_menu()
+        choice = input("Choose an option (1-5): ").strip()
+
+        if choice == "1":
+            lookup_year()
+        elif choice == "2":
+            list_winners()
+        elif choice == "3":
+            country, titles = most_titles()
+            print(f"\n{country} has won the most World Cups, with {titles} titles.\n")
+        elif choice == "4":
+            try:
+                n = int(input("How many questions? (default 5): ") or 5)
+            except ValueError:
+                n = 5
+            random_quiz(rounds=max(1, min(n, len(WORLD_CUPS))))
+        elif choice == "5":
+            print("Thanks for playing. Goodbye! 👋")
+            break
+        else:
+            print("Invalid choice, please try again.\n")
+
+
+if __name__ == "__main__":
+    main()
